@@ -1,44 +1,66 @@
-body {
-    background-color: #444444;
-    background-image: -webkit-gradient(linear, left top, right bottom, from(#000), to(#333));
-    background-image: -webkit-linear-gradient(left top, #000, #333);
-    background-image: -moz-linear-gradient(left top, #000, #333);
-    overflow: hidden;
+body{
+    background-image: -webkit-linear-gradient(left,#517caa,#604f8c);
+}
+.land {
+  fill: #e9eaf1;
+  stroke-opacity: 1;
+  box-shadow: 0 0 20px #fff;
 }
 
-#info {
+.graticule {
+  fill: none;
+  stroke: black;
+  stroke-width:.5;
+}
+
+.labels {
+    font: 8px sans-serif;
+    fill: black;
+    display:none;
+}
+
+.point {  opacity:.8; cursor: pointer;}
+
+.flyers {
+  stroke-width:1;
+  opacity: .6;
+  stroke: darkred; 
+}
+.arc, .flyer {
+  stroke-linejoin: round;
+  fill:none;
+}
+
+svg{
     position: absolute;
-    z-index: 10;
-    left: 25px;
-    top: 25px;
+    right: 300px;
+    top: 100px;
 }
 
-#defs {
-    height: 0;
-    width:0;
+.content{
+    position: absolute;
+    width: 280px;
+    height: 400px;
+    right: 30px;
+    top: 100px;
+    background: rgba(128,128,128,.7);
+    color: #fff;
+    opacity: 0;
+    overflow-y: scroll;
+    padding: .5em;
+    transition: all 2s;
 }
-
-.frame {
-    fill: none;
-    pointer-events: all;
+.content .image-holder{
+    text-indent: 0;
+    text-align: center;
 }
-
-.feature {
-    fill: #6CCC00;
-    stroke: #fff;
-    stroke-width: .5px;
+.content p{
+    text-indent: 2em;
 }
-.feature:hover{
-    fill: #c66600;
+.content img{
+    max-width: 90%;
 }
-
-.globe {
-    stroke: rgba(255, 255, 255, .5);
-    stroke-width: .25px;
-}
-
-.star {
-    fill: #fff;
-    stroke: rgba(255, 255, 255, .5);
-    stroke-width: .25px;
+.content.current{
+    z-index: 1;
+    opacity: 1;
 }

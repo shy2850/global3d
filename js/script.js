@@ -1,211 +1,174 @@
-;(function(d3){
-    var requestAFrame = (function () {
-        return  window.requestAnimationFrame ||
-                window.webkitRequestAnimationFrame ||
-                window.mozRequestAnimationFrame ||
-                window.oRequestAnimationFrame ||
-                function (fn) {
-                    return window.setTimeout(fn, 1000/60); 
-                };
-    })();
-    var _timeoutQueue = {}, index = 0;
+d3.select(window)
+    .on("mousemove", mousemove)
+    .on("mouseup", mouseup);
 
-    d3.interval = function(k,fn,timer,times){
-        fn.timer = Math.floor( (timer||200) * 60 / 1000);
-        fn.times = times || Infinity;
-        _timeoutQueue[k] = fn;
-    };
-    d3.clearInterval = function(k){
-        delete _timeoutQueue[k];
-    };
+var width = 600,
+    height = 500;
 
-    function queueTimeout(){
-        for(var i in _timeoutQueue){
-            var fn = _timeoutQueue[i];
-            if( index % fn.timer === 0 ){   //如果按照时间轮训到了，执行代码
-                if( !fn.times-- ){          //如果可执行次数为0, 移除方法
-                    delete _timeoutQueue[i];
-                }else{
-                    var _r = fn();  
-                    if(_r === false){
-                        delete _timeoutQueue[i];
-                    }
-                }
-            }
-        }
-        requestAFrame(queueTimeout);
-        index = ( index + 1) % (18000) ; //最高时隔5分钟
-    }
+var proj = d3.geo.orthographic()
+    .translate([width / 2, height / 2])
+    .clipAngle(90)
+    .scale(220);
 
-    queueTimeout(); 
-})(d3);
+var path = d3.geo.path().projection(proj).pointRadius(10);
 
-;(function(w, d3, undefined){
-    "use strict";
-
-    var width, height;
-    function getSize(){
-        width = w.innerWidth,
-        height = w.innerHeight;
-
-        if(width === 0 || height === 0){
-            setTimeout(function(){
-                getSize();
-            }, 100);
-        }
-        else {
-            init();
-        }
-    }
-
-    function init(){
-
-        //Setup path for outerspace
-        var space = d3.geo.azimuthal()
-            .mode("equidistant")
-            .translate([width / 2, height / 2]);
-
-        space.scale(space.scale() * 3);
-
-        var spacePath = d3.geo.path()
-            .projection(space)
-            .pointRadius(1);
-
-        //Setup path for globe
-        var projection = d3.geo.azimuthal()
-            .mode("orthographic")
-            .translate([width / 2, height / 2]);
-
-        var scale0 = projection.scale();
-
-        var path = d3.geo.path()
-            .projection(projection)
-            .pointRadius(2);
-
-        //Setup zoom behavior
-        var zoom = d3.behavior.zoom(true)
-            .translate(projection.origin())
-            .scale(projection.scale())
-            .scaleExtent([100, 800])
-            .on("zoom", function(e){
-                if(d3.event){
-                    var scale = d3.event.scale;
-                    var origin = [d3.event.translate[0] * -1, d3.event.translate[1]];
-                    move(scale, origin) 
-                }
-            });
-
-        var circle = d3.geo.greatCircle();
-
-        var svg = d3.select("body")
-            .append("svg")
-                .attr("width", width)
-                .attr("height", height)
-                .append("g")
-                    .call(zoom)
-                    .on("dblclick.zoom", null);
-
-        //Create a list of random stars and add them to outerspace
-        var starList = createStars(300);
-
-        var stars = svg.append("g")
-            .selectAll("g")
-            .data(starList)
-            .enter()
-            .append("path")
-                .attr("class", "star")
-                .attr("d", function(d){
-                    spacePath.pointRadius(d.properties.radius);
-                    return spacePath(d);
-                });
-
-
-        svg.append("rect")
-            .attr("class", "frame")
+var svg = d3.select("body").append("svg")
             .attr("width", width)
-            .attr("height", height);
+            .attr("height", height)
+            .on("mousedown", mousedown);
 
-        //Create the base globe
-        var backgroundCircle = svg.append("circle")
-            .attr('cx', width / 2)
-            .attr('cy', height / 2)
-            .attr('r', projection.scale())
-            .attr('class', 'globe')
-            .attr("filter", "url(#glow)")
-            .attr("fill", "url(#gradBlue)");
+function ready(world, places) {
+  var ocean_fill = svg.append("defs").append("radialGradient")
+        .attr("id", "ocean_fill")
+        .attr("cx", "75%")
+        .attr("cy", "25%");
+      ocean_fill.append("stop").attr("offset", "5%").attr("stop-color", "#a0aacb");
+      ocean_fill.append("stop").attr("offset", "100%").attr("stop-color", "#6c6697");
 
-        var g = svg.append("g"),
-            features;
+  var globe_highlight = svg.append("defs").append("radialGradient")
+        .attr("id", "globe_highlight")
+        .attr("cx", "75%")
+        .attr("cy", "25%");
+      globe_highlight.append("stop")
+        .attr("offset", "5%").attr("stop-color", "#ffd")
+        .attr("stop-opacity","0.5");
+      globe_highlight.append("stop")
+        .attr("offset", "100%").attr("stop-color", "#ba9")
+        .attr("stop-opacity","0.2");
 
-        //Add all of the countries to the globe
-        d3.json("continent_geo.json", function(collection) {
-            features = g.selectAll(".feature").data(collection.features);
+  var globe_shading = svg.append("defs").append("radialGradient")
+        .attr("id", "globe_shading")
+        .attr("cx", "55%")
+        .attr("cy", "45%");
+      globe_shading.append("stop")
+        .attr("offset","30%").attr("stop-color", "#fff")
+        .attr("stop-opacity","0")
+      globe_shading.append("stop")
+        .attr("offset","100%").attr("stop-color", "#505962")
+        .attr("stop-opacity","0.3")
 
-            features.enter().append("path")
-                .attr("class", "feature")
-                .attr("title", function(d){return d.properties.name})
-                .attr("d", function(d){ return path(circle.clip(d)); });
-        });
+  var drop_shadow = svg.append("defs").append("radialGradient")
+        .attr("id", "drop_shadow")
+        .attr("cx", "50%")
+        .attr("cy", "50%");
+      drop_shadow.append("stop")
+        .attr("offset","20%").attr("stop-color", "#000")
+        .attr("stop-opacity",".5")
+      drop_shadow.append("stop")
+        .attr("offset","100%").attr("stop-color", "#000")
+        .attr("stop-opacity","0")  
+  // 阴影
+  svg.append("ellipse")
+    .attr("cx", 260).attr("cy", 450)
+    .attr("rx", proj.scale()*.90)
+    .attr("ry", proj.scale()*.25)
+    .attr("class", "noclicks")
+    .style("fill", "url(#drop_shadow)");
+  // 海洋轮廓
+  svg.append("circle")
+    .attr("cx", width / 2).attr("cy", height / 2)
+    .attr("r", proj.scale())
+    .attr("class", "noclicks")
+    .style("fill", "url(#ocean_fill)");
+  // 地球轮廓
+  svg.append("path")
+    .datum(topojson.object(world, world.objects.land))
+    .attr("class", "land noclicks")
+    .attr("d", path);
+  //高光
+  svg.append("circle")
+    .attr("cx", width / 2).attr("cy", height / 2)
+    .attr("r", proj.scale())
+    .attr("class","noclicks")
+    .style("cursor","-webkit-grab")
+    .style("fill", "url(#globe_highlight)");
 
-        //Redraw all items with new projections
-        function redraw(){
-            features.attr("d", function(d){
-                return path(circle.clip(d));
-            });
+  // 画点
+  svg.append("g").attr("class","points")
+    .selectAll("text").data(places.features)
+    .enter().append("path")
+    .attr("class", "point")
+    .attr("d", path)
+    .style("fill", function(d){
+      return d.color;
+    })
+    .on("click", function(e, i){
+      d3.transition()
+        .duration(800)
+        .tween("rotate", function() {
+          var 
+              p = d3.geo.centroid(places.features[i]),
+              r = d3.interpolate(proj.rotate(), [-p[0], -p[1]]);
+          var 
+              other = d3.select(".content.current").attr("class","content"),
+              me = d3.selectAll(".content").filter(function(n,index){return i === index}).attr("class","content current");
+              
+          return function(t) {
+            proj.rotate( r(t) );
+            refresh();
+          };
+        })
+      .transition();
+    });
 
-            stars.attr("d", function(d){
-                spacePath.pointRadius(d.properties.radius);
-                return spacePath(d);
-            });
-        }
-
-
-        function move(scale, origin) {
-            projection.scale(scale);
-            space.scale(scale * 3);
-            backgroundCircle.attr('r', scale);
-            path.pointRadius(2 * scale / scale0);
-
-            projection.origin(origin);
-            circle.origin(origin);
-
-            //globe and stars spin in the opposite direction because of the projection mode
-            var spaceOrigin = [origin[0] * -1, origin[1] * -1];
-            space.origin(spaceOrigin);
-            redraw();
-        }
-
-        var i = 1;
-
-        d3.interval("round",function(){
-            try{
-                move( 100 + Math.abs(200 - i%400), [.2*i,0] );
-            }catch(e){}
-            i = i + 1 % 10000;
-        },20);
-
-        function createStars(number){
-            var data = [];
-            for(var i = 0; i < number; i++){
-                data.push({
-                    geometry: {
-                        type: 'Point',
-                        coordinates: randomLonLat()
-                    },
-                    type: 'Feature',
-                    properties: {
-                        radius: Math.random() * 1.5
-                    }
-                });
-            }
-            return data;
-        }
-
-        function randomLonLat(){
-            return [Math.random() * 360 - 180, Math.random() * 180 - 90];
-        }
+  proj.rotate( d3.geo.centroid({
+    type:"Feature",
+    geometry:{
+      type:"Point",
+      coordinates: [-116.667946, -40.398983]
     }
+  }) );
+  refresh();
+}
 
-    getSize();
+function refresh() {
+  svg.selectAll(".land").attr("d", path);
+  svg.selectAll(".point").attr("d", path);
+}
 
-}(window, d3));
+var m0, o0;
+function mousedown() {
+  m0 = [d3.event.pageX, d3.event.pageY];
+  o0 = proj.rotate();
+  d3.event.preventDefault();
+}
+function mousemove(e, transition) {
+  if (m0) {
+    var m1 = [d3.event.pageX, d3.event.pageY]
+      , o1 = [o0[0] + (m1[0] - m0[0]) / 2, o0[1] + (m0[1] - m1[1]) / 2];
+
+    proj.rotate( o1 );
+    refresh();
+  }
+}
+function mouseup() {
+  if (m0) {
+    mousemove();
+    m0 = null;
+  }
+}
+
+ready(world, {
+  features: data.content.map(function(item){
+    return {
+      type:"Feature",
+      color: item.bgColor,
+      geometry:{
+        type:"Point",
+        coordinates: [item.lng,item.lat]
+      }
+    };
+  })
+});
+
+d3.select("body")
+  .selectAll("div").data(data.content)
+  .enter().append("div")
+  .attr("class", "content")
+  .html(function(d) { 
+    return ( d.typeData ? ('<p class="image-holder"><img src="'+d.typeData+'" alt="'+d.title+'" /></p>') : "" )
+          +'<h2>'+( d.url ? ('<a href="'+d.url+'" target="_blank">'+d.title+'</a>') : d.title)+'</h2>'
+          +'<p>'+d.desc+'</p>'
+          ;
+  });
+

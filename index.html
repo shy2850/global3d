@@ -6,28 +6,567 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <svg id="defs">
-        <defs>
-            <linearGradient id="gradBlue" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" style="stop-color:#005C99;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#0099FF;stop-opacity:1" />
-            </linearGradient>
-            <filter id="glow">
-                <feColorMatrix type="matrix"
-                    values=
-                    "0 0 0 0   0
-                     0 0 0 0.9 0 
-                     0 0 0 0.9 0 
-                     0 0 0 1   0"/>
-                <feGaussianBlur stdDeviation="5.5" result="coloredBlur"/>
-                <feMerge>
-                    <feMergeNode in="coloredBlur"/>
-                    <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-            </filter>
-        </defs>
-    </svg>
-    <script src="js/d3.custom.js"></script>
-    <script src="js/script.js"></script>
+
+
+<script>
+window.data = {
+    id:8,
+    type : "map",
+    hasTimeline:true,
+    picUrl : "",
+    inverted:true,
+    musicUrl:"",
+    lock:false,
+    logo:"", 
+    footer:"",
+    emoticonJsonData:"",
+
+    cover : {
+        pic : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M02/A0/99/wKhTglRYJA8EAAAAAAAAAAAAAAA202.jpg",
+        title : "APEC“全家服”：领导人的服装盛会",
+        desc :"按照首次APEC会议定下的惯例：与会领导人身着会议主办方的民族服装，不带助手，自由交谈。这一形式让APEC会议看起来像一场服装盛会，领导人一改平日西装革履的模样，换上奇怪的长袍马褂、夹克衬衫，既亲近又可爱。",
+        start : "开始阅读"
+    },
+    
+    content : [
+                    
+            
+            {
+                number:0,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M07/AE/43/wKhTglRgr18EAAAAAAAAAAAAAAA354.jpg",
+                title: "第22届APEC峰会",
+                desc: "第22次“北京APEC”领导人合照身穿“新中装”，这种中式服装展示中国人新形象，其根为“中”，其魂为“礼”，其形为“新”，合此三者，谓之“新中装”。服装采用了“海水江崖纹”的设计，赋予了21个经济体山水相依、守望相护的寓意。/n\r\n男领导人服装采取了立领、对开襟、连肩袖，提花万字纹宋锦面料、饰海水江崖纹的设计。女领导人服装为立领、对襟、连肩袖，双宫缎面料、饰海水江崖纹外套。",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M03/A2/3F/wKhTg1RYZ4wEAAAAAAAAAAAAAAA444.jpg",
+                bgColor : "#f00",    
+                url : "http://xuan.news.cn/cloudnews/ktsh/20141111/1901596_p.html",             
+                lng : 116.667946,
+                lat : 40.398983,
+                time : 1415548800000,
+                timeDes : "峰会时间",
+                locusName : "北京市怀柔区雁栖湖",
+                timeStart : "2014-11-10",
+                timeEnd : "2014-11-11",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/251/1435168703884_43.png",
+                zoom :"14",
+                radius:"",  
+                banMap:false    
+            }
+            ,
+                    
+            
+            {
+                number:1,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M08/94/DD/wKhTg1RPYvAEAAAAAAAAAAAAAAA304.jpg",
+                title: "第21届APEC峰会",
+                desc: "第21次APEC峰会领导人穿上“安代克”拍摄大合照。/n\r\n“安代克”是一种采用巴厘岛特有的编织法“伊卡”制成的布料，制作过程相当复杂。从染色到纺织，全部采用人工作业，布料特色为抽象图案，颜色亮丽。“安代克”布料价格昂贵，每件成品需要3名织工耗时一个月才能完成，一米布料的价格可高达约150元人民币。/n\r\n会议主题：印尼巴厘岛会议重点讨论了茂物目标、互联互通、可持续和公平增长等议题，发表了《活力亚太，全球引擎—APEC第二十一次领导人非正式会议宣言》和《支持多边贸易体制和世界贸易组织第九届部长级会议声明》。 ",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M03/A1/E9/wKhTglRYZC4EAAAAAAAAAAAAAAA183.jpg",
+                bgColor : "#e1f5ff",    
+                url : "",               
+                lng : 115.183709,
+                lat : -8.374491,
+                time : 1381075200000,
+                timeDes : "",
+                locusName : "印尼巴厘岛",
+                timeStart : "2013-10-07",
+                timeEnd : "2013-10-08",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/251/1435168703961_40.png",
+                zoom :"8",
+                radius:"",  
+                banMap:false    
+            }
+            ,
+                    
+            
+            {
+                number:2,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M05/94/DD/wKhTg1RPYuYEAAAAAAAAAAAAAAA778.jpg",
+                title: "第20届APEC峰会",
+                desc: "第20次APEC峰会领导人不穿俄罗斯的民族服装合影，而是穿西装，以突显本届峰会的务实色彩。/n\r\n会议主题：重点讨论了贸易投资自由化和区域经济一体化、加强粮食安全、建立可靠的供应链、加强创新增长合作等议题，发表了《融合谋发展，创新促繁荣——APEC第二十次领导人非正式会议宣言》。",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M05/A1/E8/wKhTglRYYz8EAAAAAAAAAAAAAAA999.jpg",
+                bgColor : "#cbe9fe",    
+                url : "",               
+                lng : 131.93277,
+                lat : 43.147997,
+                time : 1347120000000,
+                timeDes : "",
+                locusName : "俄罗斯符拉迪沃斯托克(海参崴)",
+                timeStart : "2012-09-09",
+                timeEnd : "2012-09-10",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/251/1435168704041_82.png",
+                zoom :"9",
+                radius:"",  
+                banMap:false    
+            }
+            ,
+                    
+            
+            {
+                number:3,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M06/94/90/wKhTglRPYtAEAAAAAAAAAAAAAAA166.jpg",
+                title: "第19届APEC峰会",
+                desc: "第19次APEC峰会领导人着普通的正装。/n\r\n对于为什么没有穿夏威夷衫的质疑，奥巴马在闭幕后表示想打破传统，来这里是为了工作。而有媒体猜测此次严肃着装或受全球经济危机拖累。实际上，美国主办方给领导人发了夏威夷服装，但没有规定必须在合影时穿上。/n\r\n会议主题：围绕“紧密联系的区域经济”的主题，重点围绕亚太经济增长、规制合作、能源安全等议题展开讨论，发表了《檀香山宣言—迈向紧密联系的区域经济》。",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M03/A1/E6/wKhTglRYYhYEAAAAAAAAAAAAAAA617.jpg",
+                bgColor : "#dfe8ff",    
+                url : "",               
+                lng : -157.852312,
+                lat : 21.339815,
+                time : 1321027200000,
+                timeDes : "",
+                locusName : "美国夏威夷",
+                timeStart : "2011-11-12",
+                timeEnd : "2011-11-13",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/251/1435168704121_93.png",
+                zoom :"8",
+                radius:"",  
+                banMap:false    
+            }
+            ,
+                    
+            
+            {
+                number:4,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M07/94/DD/wKhTg1RPYs0EAAAAAAAAAAAAAAA763.jpg",
+                title: "第18届APEC峰会",
+                desc: "第18次APEC峰会领导人着普通的正装。为什么此次峰会要打破惯例？有媒体认为，在APEC成员中，中国、韩国、菲律宾等很多国家都曾在二战时遭受过日本的侵略，和服在这些国家民众的眼中，已不仅仅是简单的民族服装，更是令人回忆起痛苦历史的文化符号。如果日本安排各国领导人穿和服，那么响应者预计屈指可数。/n\r\n会议主题：深入讨论了区域经济一体化、制定经济增长新战略等议题，通过了《领导人宣言：茂物及后茂物时代的横滨愿景》等四个成果文件。",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M05/A1/E6/wKhTglRYYTcEAAAAAAAAAAAAAAA040.jpg",
+                bgColor : "#d3ebfe",    
+                url : "",               
+                lng : 139.64569,
+                lat : 35.414235,
+                time : 1289577600000,
+                timeDes : "",
+                locusName : "日本横滨",
+                timeStart : "2010-11-13",
+                timeEnd : "2010-11-14",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/2417/1435139679525_90.png",
+                zoom :"9",
+                radius:"",  
+                banMap:false    
+            }
+            ,
+                    
+            
+            {
+                number:5,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M04/94/DD/wKhTg1RPYsYEAAAAAAAAAAAAAAA934.jpg",
+                title: "第17届APEC峰会",
+                desc: "第17次APEC峰会本届峰会提前公布了与会领导人拍“全家福”将穿的服装。服装是由新加坡籍服装设计师宋伟杰设计的，旨在展示新加坡的多元种族和文化。男装分为绿、红、灰三种颜色，面料为亚麻，服装的绣花和扣子都采用了典雅的荷花造型；女装则为红色丝绸面料，整体设计简洁而现代，同时还体现了东南亚浓郁的民族风情。/n\r\n会议主题：深入讨论了经济增长、多边贸易体制、区域经济一体化、气候变化等问题，发表了《倡导新的增长方式，构建21世纪互联互通的亚太领导人声明》。",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M02/A1/E5/wKhTglRYYGUEAAAAAAAAAAAAAAA377.jpg",
+                bgColor : "#ffffff",    
+                url : "",               
+                lng : 103.818671,
+                lat : 1.305275,
+                time : 1258128000000,
+                timeDes : "",
+                locusName : "新加坡",
+                timeStart : "2009-11-14",
+                timeEnd : "2009-11-15",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/2417/1435139679603_50.png",
+                zoom :"9",
+                radius:"",  
+                banMap:false    
+            }
+            ,
+                    
+            
+            {
+                number:6,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M01/94/DD/wKhTg1RPYsQEAAAAAAAAAAAAAAA289.jpg",
+                title: "第16届APEC峰会",
+                desc: "第16次APEC峰会领导人身着“彭丘”。/n\r\n彭丘是一大块羊驼毛织物，形状像长方形的毛毯，在中间开出一个洞以便穿着，两侧的下摆有灰黑相间的传统花边。通常，防雨彭丘在披挂之后，两边有纽扣系住，使两臂在外。许多彭丘带有钩鼻以便遮挡风雨。另一类彭丘更具有时装意义，被设计得时尚，温暖，透气良好和舒适。/n\r\n会议主题：深入讨论了全球和地区经济形势、国际金融危机等问题，发表了《领导人宣言》和《关于国际经济金融形势的声明》。",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M09/A2/35/wKhTg1RYYCAEAAAAAAAAAAAAAAA856.jpg",
+                bgColor : "#e8fff9",    
+                url : "",               
+                lng : -77.049751,
+                lat : -12.08352,
+                time : 1227283200000,
+                timeDes : "",
+                locusName : "秘鲁利马",
+                timeStart : "2008-11-22",
+                timeEnd : "2008-11-23",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/251/1435168704364_50.png",
+                zoom :"9",
+                radius:"",  
+                banMap:false    
+            }
+            ,
+                    
+            
+            {
+                number:7,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M09/94/DD/wKhTg1RPYsEEAAAAAAAAAAAAAAA992.jpg",
+                title: "第15届APEC峰会",
+                desc: "第15次APEC峰会领导人们穿着的传统服装德瑞莎-波恩：深褐色的皮夹克，样子很像厚重的雨衣。/n\r\n这种融入了澳大利亚独特环境和独特文化的过膝衣服，已有一百多年的历史，最早是水手穿的，布料有防水作用。APEC首脑穿的这款衣服采用棕色的传统颜色，领子有蓝、黄、绿等不同颜色，分别代表澳大利亚漫长的海岸线、太阳与沙漠，以及草木等等。在衣服的左上方是2007APEC的标志，由二十一个元素组成，代表二十一个经济体成员。/n\r\n会议主题：深入讨论了气候变化问题，通过了《关于气候变化、能源安全和清洁发展的悉尼宣言》。",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M09/A2/35/wKhTg1RYX3YEAAAAAAAAAAAAAAA058.jpg",
+                bgColor : "#ecf5ff",    
+                url : "",               
+                lng : 151.043839,
+                lat : -33.84359,
+                time : 1189180800000,
+                timeDes : "",
+                locusName : "澳大利亚悉尼",
+                timeStart : "2007-09-08",
+                timeEnd : "2007-09-09",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/251/1435168704438_58.png",
+                zoom :"9",
+                radius:"",  
+                banMap:false    
+            }
+            ,
+                    
+            
+            {
+                number:8,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M05/94/8F/wKhTglRPYrUEAAAAAAAAAAAAAAA690.jpg",
+                title: "第14届APEC峰会",
+                desc: "第14次APEC峰会各国领导人身穿越南的一种丝质长衫“奥黛”亮相。此次峰会礼服有5种颜色。/n\r\n奥黛通常使用丝绸等软性布料，上衣是一件长衫，类似中国旗袍，胸袖剪裁非常合身，突显女性玲珑有致的曲线，而两侧开高叉至腰部，走路时前后两片裙摆随风飘逸，下半身配上一条喇叭筒的长裤，因此无论日常生活的行、住、坐、卧都很方便。/n\r\n会议主题：越南河内会议又进一步制定了实现“釜山路线图”的行动计划。",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M04/A2/34/wKhTg1RYXxoEAAAAAAAAAAAAAAA400.jpg",
+                bgColor : "#d0eaff",    
+                url : "",               
+                lng : 105.82668,
+                lat : 21.040511,
+                time : 1162915200000,
+                timeDes : "",
+                locusName : "越南河内市",
+                timeStart : "2006-11-08",
+                timeEnd : "2006-11-09",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/2418/1435140591945_40.png",
+                zoom :"9",
+                radius:"",  
+                banMap:false    
+            }
+            ,
+                    
+            
+            {
+                number:9,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M08/97/66/wKhTglRQwQwEAAAAAAAAAAAAAAA529.jpg",
+                title: "第13届APEC峰会",
+                desc: "第13次APEC峰会韩式大褂“图鲁马吉”被选定为APEC会议的领导人服装。 外套有七种不同的颜色，服装上的图案在古老的东方文化中象征着长寿、永久等。/n\r\n“图鲁马吉”领子呈V字形，衣长过膝，全部用韩国本土绸缎制成。大褂上还将印有松树和竹子的图案。在韩国传统文化中，松树代表忠贞，而竹子则寓意高贵和睿智。/n\r\n会议主题：完成了对茂物目标的中期审评，制定了旨在实现茂物目标的\"釜山路线图\"。",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M03/A1/DF/wKhTglRYXkIEAAAAAAAAAAAAAAA040.jpg",
+                bgColor : "#e0edfe",    
+                url : "",               
+                lng : 129.064819,
+                lat : 35.155121,
+                time : 1132243200000,
+                timeDes : "",
+                locusName : "韩国釜山",
+                timeStart : "2005-11-18",
+                timeEnd : "2005-11-19",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/2417/1435139679920_87.png",
+                zoom :"9",
+                radius:"",  
+                banMap:false    
+            }
+            ,
+                    
+            
+            {
+                number:10,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M01/94/8F/wKhTglRPYrEEAAAAAAAAAAAAAAA388.jpg",
+                title: "第12届APEC峰会",
+                desc: "第12次APEC峰会这次领导人披上套头披肩“查曼多”。此次每位领导人所穿“查曼多”的花色在全世界都是独一无二的，上面所绣的是麦穗、黑莓、葡萄串、鸟类等有智利特色的动植物。/n\r\n“查曼多”是南美洲安第斯山区居民经常穿戴的一种斗篷，通常为整块的羊驼毛呢布，使用时披在身上，头从布中间的洞里伸出来。这种衣服正反两面都可使用，正面花色较暗，通常在白天穿，反面则较亮，在晚上穿。衣服由丝线和羊毛混合编织而成，每件衣服需要巧妇连续工作4个月时间才能做成，每件估计在1400美元左右。/n\r\n会议主题：重申了推进经济结构改革的意向，并提出了应对恐怖主义的合作措施。",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M02/A2/2F/wKhTg1RYXQYEAAAAAAAAAAAAAAA505.jpg",
+                bgColor : "#e2f1fe",    
+                url : "",               
+                lng : -70.633584,
+                lat : -33.478349,
+                time : 1100880000000,
+                timeDes : "",
+                locusName : "智利圣地亚哥",
+                timeStart : "2004-11-20",
+                timeEnd : "2004-11-21",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/251/1435168704681_91.png",
+                zoom :"9",
+                radius:"",  
+                banMap:false    
+            }
+            ,
+                    
+            
+            {
+                number:11,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M00/94/DD/wKhTg1RPYrgEAAAAAAAAAAAAAAA724.jpg",
+                title: "第11届APEC峰会",
+                desc: "第11次APEC峰会出席会议的各成员领导人身着泰国民族服装集体合影，每件服装的价格2700美元。这种织入金线的丝绸显示了泰国丝织行业最高超的技术，一直是皇室的专属服装，直到20世纪才允许平民穿着。/n\r\n会议主题：强调在知识经济、金融体系和经济结构改革等领域加大投入，承诺在人类安全领域开展务实合作，批准了《APEC抗击非典行动计划》。",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M03/A2/27/wKhTg1RYUxQEAAAAAAAAAAAAAAA622.jpg",
+                bgColor : "#dfecff",    
+                url : "",               
+                lng : 100.552666,
+                lat : 13.745571,
+                time : 1066579200000,
+                timeDes : "",
+                locusName : "泰国曼谷",
+                timeStart : "2003-10-20",
+                timeEnd : "2003-10-21",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/2418/1435140592186_55.png",
+                zoom :"9",
+                radius:"",  
+                banMap:false    
+            }
+            ,
+                    
+            
+            {
+                number:12,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M06/94/8F/wKhTglRPYq4EAAAAAAAAAAAAAAA522.jpg",
+                title: "第10届APEC峰会",
+                desc: "第10次APEC峰会各国领导人身着“瓜亚贝拉”白衬衫。/n\r\n瓜亚贝拉，又称瓜亚贝拉衬衫，为小翻领，四个贴兜，胸前衣襟上绣有花纹，长袖，多为浅色，是墨西哥炎热地区特别是墨西哥东南部的尤卡坦半岛男子爱穿的服装。瓜亚贝拉既可在一般场合穿着，也可以作为参加重要活动的正式服装。/n\r\n会议主题：讨论扩大经济增长和发展合作的利益，实现APEC远景目标，通过了《APEC地区安全贸易倡议》。",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M07/A1/BC/wKhTglRYTQcEAAAAAAAAAAAAAAA631.jpg",
+                bgColor : "#06aadd",    
+                url : "",               
+                lng : -109.686403,
+                lat : 23.107356,
+                time : 1035561600000,
+                timeDes : "",
+                locusName : "墨西哥洛斯卡沃斯",
+                timeStart : "2002-10-26",
+                timeEnd : "2002-10-27",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/251/1435168704832_17.png",
+                zoom :"9",
+                radius:"",  
+                banMap:false    
+            }
+            ,
+                    
+            
+            {
+                number:13,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M08/94/8F/wKhTglRPYqwEAAAAAAAAAAAAAAA418.jpg",
+                title: "第9届APEC峰会",
+                desc: "第9次APEC峰会穿着唐装的领导人和代表们分外抢眼。这套特制的服装只有上衣，分外套和衬衫两件。团花织锦缎中式对襟夹外套，有红、绿、蓝、咖啡、绛红、黑6种颜色，手工滚边、盘花纽。/n\r\n“唐装”较为广泛的理解是指西式裁剪的具有马褂特点的一种服装，来源于国外的“唐人街”，颇有国际化之意味。唐装吸取了清朝服装具有的款式和面料，同时采用了西式服装立体式剪裁，是满族服饰的继承和发展。/n\r\n会议主题：推动亚太经合组织在多边贸易体制发展、人力资源能力建设、电子APEC、新经济及反恐合作等多个领域取得积极进展，达成了旨在加速实现茂物目标的上海共识。",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M09/A1/BA/wKhTglRYTKkEAAAAAAAAAAAAAAA917.jpg",
+                bgColor : "#ddecff",    
+                url : "",               
+                lng : 121.475142,
+                lat : 31.23013,
+                time : 1003507200000,
+                timeDes : "",
+                locusName : "中国上海",
+                timeStart : "2001-10-20",
+                timeEnd : "2001-10-21",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/2417/1435139680232_74.png",
+                zoom :"9",
+                radius:"",  
+                banMap:false    
+            }
+            ,
+                    
+            
+            {
+                number:14,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M00/94/DD/wKhTg1RPYrMEAAAAAAAAAAAAAAA964.jpg",
+                title: "第8届APEC峰会",
+                desc: "第8次APEC峰会各领导人穿的是一种叫“MIB”的衬衫，因为它最具文莱特色。这是一种类似中国市场上到处可见的那种竖领衬衫，文莱人出席重要仪式一般都穿着它。颜色一般是白、蓝等单一色。/n\r\n会议主题：通过了《新经济行动议程》，强调了信息技术为主的新经济在世界经济发展中的作用，同意采用电子版单边行动计划。",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M07/A2/0A/wKhTg1RYTFAEAAAAAAAAAAAAAAA027.jpg",
+                bgColor : "#00b",    
+                url : "",               
+                lng : 114.949844,
+                lat : 4.941579,
+                time : 974217600000,
+                timeDes : "",
+                locusName : "文莱斯里巴加湾市",
+                timeStart : "2000-11-15",
+                timeEnd : "2000-11-16",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/251/1435168704991_35.png",
+                zoom :"9",
+                radius:"",  
+                banMap:false    
+            }
+            ,
+                    
+            
+            {
+                number:15,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M08/94/DC/wKhTg1RPYrEEAAAAAAAAAAAAAAA271.jpg",
+                title: "第7届APEC峰会",
+                desc: "第7次APEC峰会领导人的“制服”是由新西兰享誉世界的优质羊毛制成，包括一件帆船茄克、一件长袖马球衬衣及一条黑裤。蓝黑色夹克左胸前绣着的白色羽毛是新西兰国树银蕨树叶的形状。/n\r\n会议主题：新西兰奥克兰会议提出了发达成员在2005年、发展中成员在2010年实现无纸化贸易的目标，批准了APEC商务旅行卡计划。",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M05/A1/B8/wKhTglRYS-YEAAAAAAAAAAAAAAA132.jpg",
+                bgColor : "#e0ecfe",    
+                url : "",               
+                lng : 174.794601,
+                lat : -36.92038,
+                time : 937065600000,
+                timeDes : "",
+                locusName : "新西兰奥克兰",
+                timeStart : "1999-09-12",
+                timeEnd : "1999-09-13",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/2418/1435140592490_19.png",
+                zoom :"9",
+                radius:"",  
+                banMap:false    
+            }
+            ,
+                    
+            
+            {
+                number:16,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M04/94/DC/wKhTg1RPYq8EAAAAAAAAAAAAAAA686.jpg",
+                title: "第6届APEC峰会",
+                desc: "第6次APEC峰会东道主给每位客人送了一件色彩艳丽、极富热带情调的马来衬衫。/n\r\n马来西亚衫（峇迪衫 Baju Batik）由巴迪布制成，巴迪布是一种腊染印花布，其特点是布上印有多姿多彩的彩色图案，有几何图形的，也有各种花鸟图案的，有对称图案，也有不对称图案。其色彩一般以黑、红、黄为主色，鲜艳明快，也有以蓝、褐、白为主的，看上去凝重深沉。用它制作的长袖男衬衣已被定为马来西亚国服，适于在各种正式和非正式场合穿着。/n\r\n会议主题：通过建立社会保险网、完善金融体制、加强贸易投资流动、科技和人力资源开发、加强与工商界联系等措施，夯实亚太面向21世纪可持续发展的基础。",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M02/A1/B7/wKhTglRYS3wEAAAAAAAAAAAAAAA761.jpg",
+                bgColor : "#aa0",    
+                url : "",               
+                lng : 101.711201,
+                lat : 3.150626,
+                time : 911232000000,
+                timeDes : "",
+                locusName : "马来西亚吉隆坡",
+                timeStart : "1998-11-17",
+                timeEnd : "1997-11-18",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/2417/1435139680472_23.png",
+                zoom :"9",
+                radius:"",  
+                banMap:false    
+            }
+            ,
+                    
+            
+            {
+                number:17,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M05/94/8E/wKhTglRPYqUEAAAAAAAAAAAAAAA465.jpg",
+                title: "第5届APEC峰会",
+                desc: "第5次APEC峰会加拿大总统克雷蒂安送给出席者每人一件特别的牛皮夹克。/n\r\n此次会议的皮夹克借鉴了1993年首届APEC峰会上克林顿的着装，当时他身着一身轰炸机飞行员皮夹克出席。澳大利亚总理霍华德后来表示，他最喜欢的APEC服饰是此次加拿大峰会的一件皮质飞行员夹克。他说：“那件衣服太棒了，我带回来之后，我的两个儿子都想将它据为己有。”/n\r\n会议主题：承诺逐年改进和完善单边行动计划，并接纳越南、俄罗斯和秘鲁为APEC新成员。",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M00/A2/08/wKhTg1RYSzkEAAAAAAAAAAAAAAA838.jpg",
+                bgColor : "#e1f4ff",    
+                url : "",               
+                lng : -123.018188,
+                lat : 49.245644,
+                time : 880300800000,
+                timeDes : "",
+                locusName : "加拿大温哥华",
+                timeStart : "1997-11-24",
+                timeEnd : "1997-11-25",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/2418/1435140592659_53.png",
+                zoom :"9",
+                radius:"",  
+                banMap:false    
+            }
+            ,
+                    
+            
+            {
+                number:18,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M04/94/8E/wKhTglRPYqMEAAAAAAAAAAAAAAA902.jpg",
+                title: "第4届APEC峰会",
+                desc: "第4次APEC峰会领导人穿“巴隆”合影。/n\r\n“巴隆他加禄” 衬衣是菲律宾男子的国服。这是一种丝质紧身衬衣，长可及臀，领口如同一般可以扎领带的衬衫，长袖，袖口如同西服上装。前领口直到下襟两侧，都有抽丝镂空图案，花纹各异，颇为大方。/n\r\n会议主题：以自主自愿、协商一致为特点的亚太经合组织合作方式，呼吁各方给予经济技术合作应有的重视，并把私营部门纳入APEC进程。",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M03/A1/A8/wKhTglRYSH8EAAAAAAAAAAAAAAA296.jpg",
+                bgColor : "#0d0",    
+                url : "",               
+                lng : 120.235205,
+                lat : 14.884916,
+                time : 848851200000,
+                timeDes : "",
+                locusName : "菲律宾苏比克",
+                timeStart : "1996-11-25",
+                timeEnd : "1996-11-25",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/251/1435168705311_97.png",
+                zoom :"9",
+                radius:"",  
+                banMap:false    
+            }
+            ,
+                    
+            
+            {
+                number:19,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M01/94/DC/wKhTg1RPYqoEAAAAAAAAAAAAAAA041.jpg",
+                title: "第3届APEC峰会",
+                desc: "第3次APEC峰会主办方并没有准备专门的服装，各国领导人穿着都比较随意。/n\r\n会议主题：确定将贸易和投资自由化便利化、经济技术合作作为亚太经合组织合作的两个轮子，要求APEC成员制定推进区域贸易投资自由化的单边行动计划和集体行动计划。",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M09/A1/9F/wKhTglRYRdYEAAAAAAAAAAAAAAA089.jpg",
+                bgColor : "#ffffff",    
+                url : "",               
+                lng : 135.523727,
+                lat : 34.667446,
+                time : 816710400000,
+                timeDes : "",
+                locusName : "日本大阪",
+                timeStart : "1995-11-19",
+                timeEnd : "1995-11-19",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/251/1435168705391_12.png",
+                zoom :"9",
+                radius:"",  
+                banMap:false    
+            }
+            ,
+                    
+            
+            {
+                number:20,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M08/94/DC/wKhTg1RPYqgEAAAAAAAAAAAAAAA267.jpg",
+                title: "第2届APEC峰会",
+                desc: "第2次APEC峰会时任印尼总统苏哈托量体裁衣，为每位领导人送了一件BATIK，花色各异。此后，会议主办国都依此惯例，延续至今。/n\r\n巴迪衫(BATIK)，是印尼主要传统服饰，已有1300多年历史。巴迪衫是由名为巴迪的蜡染花布制作而成，有丝质和棉质等多种面料，布上印着多姿多彩的图案。用巴迪布做的印着对称图案的长袖对襟衫，在印尼是一种国服，可作为正式服装参加各种活动。/n\r\n会议主题：确立了亚太经合组织实现贸易和投资自由化的目标，提出了两个时间表，即发达成员于2010年前、发展中成员于2020年前实现这一目标。",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M06/A1/9C/wKhTglRYRToEAAAAAAAAAAAAAAA106.jpg",
+                bgColor : "#e8fff2",    
+                url : "",               
+                lng : 106.792274,
+                lat : -6.590664,
+                time : 784828800000,
+                timeDes : "",
+                locusName : "印尼茂物",
+                timeStart : "1994-11-15",
+                timeEnd : "1994-11-15",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/2417/1435139680782_88.png",
+                zoom :"9",
+                radius:"",  
+                banMap:false    
+            }
+            ,
+                    
+            
+            {
+                number:21,
+                 type : "pic",
+                 typeData : "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M07/94/8E/wKhTglRPYp4EAAAAAAAAAAAAAAA866.jpg",
+                title: "首届APEC峰会",
+                desc: "首次APEC峰会会议一开始就决定以非正式的形式进行：不设主题，领导人不带助手，自由交谈。当时，克林顿总统就穿着牛仔裤，颇具特色。/n\r\n会议主题：承诺深化亚太大家庭精神，为地区人民争取稳定、安全和繁荣。",
+                bgPic :  "http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M04/A1/8C/wKhTglRYQqgEAAAAAAAAAAAAAAA062.jpg",
+                bgColor : "#f60",    
+                url : "",               
+                lng : -122.333734,
+                lat : 47.602624,
+                time : 753638400000,
+                timeDes : "",
+                locusName : "美国西雅图",
+                timeStart : "1993-11-19",
+                timeEnd : "2014-11-20",
+                mapImage:"http://tmisc.home.news.cn/maptiles/mapstatic-service/maptemp/20156/2417/1435139680862_66.png",
+                zoom :"9",
+                radius:"",  
+                banMap:false    
+            }
+            
+        
+    ]
+};
+
+
+</script>
+   
+<script src="js/d3.min.js"></script>   
+<script src="js/topojson.v0.min.js"></script>  
+<script src="js/world.js"></script>
+<script src="js/script.js"></script> 
 </body>
 </html>
