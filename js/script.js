@@ -111,13 +111,13 @@ function ready(world, places) {
       .transition();
     });
 
-  proj.rotate( d3.geo.centroid({
-    type:"Feature",
-    geometry:{
-      type:"Point",
-      coordinates: [-116.667946, -40.398983]
-    }
-  }) );
+  // proj.rotate( d3.geo.centroid({
+  //   type:"Feature",
+  //   geometry:{
+  //     type:"Point",
+  //     coordinates: [-116.667946, -40.398983]
+  //   }
+  // }) );
   refresh();
 }
 
@@ -148,7 +148,7 @@ function mouseup() {
   }
 }
 
-ready(world, {
+var places = {
   features: data.content.map(function(item){
     return {
       type:"Feature",
@@ -159,7 +159,9 @@ ready(world, {
       }
     };
   })
-});
+};
+
+ready(world, places);
 
 d3.select("body")
   .selectAll("div").data(data.content)
@@ -172,3 +174,35 @@ d3.select("body")
           ;
   });
 
+var hover = false, ii = -1;
+d3.select(document).on("mouseover", function(){
+  hover = true;
+}).on("mouseout", function(){
+  hover = false;
+});
+d3.timer(function(t){
+  if( hover ){
+    ii = 0;
+    return;
+  }
+  ii = (ii + 1) % (300*data.content.length);
+  if( ii % 300 === 0 ){
+    var iii = (ii / 300);
+    d3.transition()
+        .duration(800)
+        .tween("rotate", function() {
+          var 
+              p = d3.geo.centroid(places.features[iii]),
+              r = d3.interpolate(proj.rotate(), [-p[0], -p[1]]);
+          var 
+              other = d3.select(".content.current").attr("class","content"),
+              me = d3.selectAll(".content").filter(function(n,index){return iii === index}).attr("class","content current");
+              
+          return function(t) {
+            proj.rotate( r(t) );
+            refresh();
+          };
+        })
+      .transition();
+  }
+});
