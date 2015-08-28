@@ -1,8 +1,43 @@
-body{
-    background-image: -webkit-linear-gradient(left,#517caa,#604f8c);
+html,body{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-y: hidden;
+}
+img.bg{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/**webkit滚动条样式*/
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  -webkit-border-radius: 3px;
+}
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  background: #cbcbcb;
+}
+/**webkit滚动条样式 结束*/
+
+#d3-container{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 .land {
-  fill: #e9eaf1;
+  fill: #fff;
   stroke-opacity: 1;
   box-shadow: 0 0 20px #fff;
 }
@@ -20,6 +55,9 @@ body{
 }
 
 .point {  opacity:.8; cursor: pointer;}
+.point.pic{
+  fill: url(http://tmisc.home.news.cn/story/img/markerPicColor.png);
+}
 
 .flyers {
   stroke-width:1;
@@ -29,12 +67,6 @@ body{
 .arc, .flyer {
   stroke-linejoin: round;
   fill:none;
-}
-
-svg{
-    position: absolute;
-    right: 300px;
-    top: 100px;
 }
 
 .content{

@@ -2,17 +2,18 @@ d3.select(window)
     .on("mousemove", mousemove)
     .on("mouseup", mouseup);
 
-var width = 600,
-    height = 500;
+var width = document.documentElement.clientWidth,
+    height = document.documentElement.clientHeight,
+    container = d3.select("#d3-container");
 
 var proj = d3.geo.orthographic()
     .translate([width / 2, height / 2])
     .clipAngle(90)
-    .scale(220);
+    .scale(  Math.min(width,height) / 3.6);
 
 var path = d3.geo.path().projection(proj).pointRadius(10);
 
-var svg = d3.select("body").append("svg")
+var svg = container.append("svg")
             .attr("width", width)
             .attr("height", height)
             .on("mousedown", mousedown);
@@ -22,8 +23,8 @@ function ready(world, places) {
         .attr("id", "ocean_fill")
         .attr("cx", "75%")
         .attr("cy", "25%");
-      ocean_fill.append("stop").attr("offset", "5%").attr("stop-color", "#a0aacb");
-      ocean_fill.append("stop").attr("offset", "100%").attr("stop-color", "#6c6697");
+      ocean_fill.append("stop").attr("offset", "5%").attr("stop-color", "#dbeef8");
+      ocean_fill.append("stop").attr("offset", "100%").attr("stop-color", "#79afd9");
 
   var globe_highlight = svg.append("defs").append("radialGradient")
         .attr("id", "globe_highlight")
@@ -59,7 +60,7 @@ function ready(world, places) {
         .attr("stop-opacity","0")  
   // 阴影
   svg.append("ellipse")
-    .attr("cx", 260).attr("cy", 450)
+    .attr("cx", width/2).attr("cy", height/2 + proj.scale())
     .attr("rx", proj.scale()*.90)
     .attr("ry", proj.scale()*.25)
     .attr("class", "noclicks")
@@ -82,12 +83,26 @@ function ready(world, places) {
     .attr("class","noclicks")
     .style("cursor","-webkit-grab")
     .style("fill", "url(#globe_highlight)");
+  //边界阴影
+  container.append("div")
+    .style({
+      position: "absolute",
+      left: width / 2  - proj.scale() + "px",
+      top: height / 2  - proj.scale() + "px",
+      "z-index": -1, 
+      width: proj.scale() * 2 + "px",
+      height: proj.scale() * 2 + "px",
+      "border-radius": "50%",
+      "box-shadow":"0 0 50px #48747d"
+    });
 
   // 画点
   svg.append("g").attr("class","points")
     .selectAll("text").data(places.features)
     .enter().append("path")
-    .attr("class", "point")
+    .attr("class", function(d){
+      return "point " + d.dataType;
+    })
     .attr("d", path)
     .style("fill", function(d){
       return d.color;
@@ -153,6 +168,7 @@ var places = {
     return {
       type:"Feature",
       color: item.bgColor,
+      dataType: item.type,
       geometry:{
         type:"Point",
         coordinates: [item.lng,item.lat]
@@ -163,7 +179,7 @@ var places = {
 
 ready(world, places);
 
-d3.select("body")
+d3.select("#d3-container")
   .selectAll("div").data(data.content)
   .enter().append("div")
   .attr("class", "content")
@@ -175,7 +191,7 @@ d3.select("body")
   });
 
 var hover = false, ii = -1;
-d3.select(document).on("mouseover", function(){
+d3.select("#d3-container").on("mouseover", function(){
   hover = true;
 }).on("mouseout", function(){
   hover = false;
